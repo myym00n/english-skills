@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<script>
+// Встроенные колоды. Формат карточки: [английский, русский, пример].
+// Варианты ответа можно перечислять через "/".
+// dir: 'ru2en' — колода спрашивается только с русского на английский.
+window.VT_DECKS = {
+  'daily-a2': {
+    title: 'Быт A2 — базовые слова',
+    level: 'A2',
+    cards: [
+      ['rent', 'аренда/арендная плата/снимать', 'The rent is due on the first of the month.'],
+      ['landlord', 'арендодатель/хозяин квартиры', 'I called the landlord about the heating.'],
+      ['receipt', 'чек/квитанция', 'Can I have the receipt, please?'],
+      ['change', 'сдача/мелочь', 'Keep the change.'],
+      ['refund', 'возврат денег', 'I would like a refund for this jacket.'],
+      ['queue', 'очередь', 'There was a long queue at the bank.'],
+      ['delay', 'задержка', 'The flight has a two-hour delay.'],
+      ['luggage', 'багаж', 'My luggage did not arrive.'],
+      ['ticket', 'билет', 'I bought a return ticket.'],
+      ['platform', 'платформа', 'The train leaves from platform 4.'],
+      ['bill', 'счёт', 'Could we have the bill, please?'],
+      ['tip', 'чаевые', 'We left a small tip.'],
+      ['pharmacy', 'аптека', 'Is there a pharmacy near here?'],
+      ['headache', 'головная боль', 'I have a terrible headache.'],
+      ['appointment', 'запись/встреча/приём', 'I have an appointment with the doctor at 10.'],
+      ['neighbour', 'сосед', 'My neighbour is very friendly.'],
+      ['washing machine', 'стиральная машина', 'The washing machine is broken.'],
+      ['to borrow', 'занять/одолжить у кого-то/взять взаймы', 'Can I borrow your pen?'],
+      ['to lend', 'одолжить кому-то/дать взаймы', 'Could you lend me some money?'],
+      ['cheap', 'дешёвый', 'This hotel is cheap but clean.'],
+      ['expensive', 'дорогой', 'Taxis are expensive here.'],
+      ['to book', 'бронировать/забронировать', 'I booked a table for two.'],
+      ['to cancel', 'отменить/отменять', 'They cancelled the meeting.'],
+      ['to fix', 'чинить/починить/исправить', 'Can you fix the tap?'],
+      ['to arrive', 'прибывать/приезжать/прибыть', 'We arrived late at night.'],
+      ['to leave', 'уезжать/уходить/оставлять', 'The bus leaves at six.'],
+      ['to pay by card', 'платить картой', 'Can I pay by card?'],
+      ['weather forecast', 'прогноз погоды', 'The weather forecast says rain.'],
+      ['groceries', 'продукты', 'I need to buy some groceries.'],
+      ['to get lost', 'заблудиться', 'We got lost in the old town.']
+    ]
+  },
+  'daily-b1': {
+    title: 'Быт B1 — шире и точнее',
+    level: 'B1',
+    cards: [
+      ['deposit', 'залог/депозит', 'I will get my deposit back when I move out.'],
+      ['lease', 'договор аренды', 'We signed a one-year lease.'],
+      ['to complain', 'жаловаться/пожаловаться', 'I complained about the noise.'],
+      ['to replace', 'заменить/заменять', 'They replaced the broken window.'],
+      ['to deliver', 'доставлять/доставить', 'The parcel was delivered yesterday.'],
+      ['parcel', 'посылка', 'I am waiting for a parcel.'],
+      ['to afford', 'позволить себе', 'I cannot afford a new car.'],
+      ['to manage', 'справиться/суметь/управлять', 'I managed to fix it myself.'],
+      ['to remind', 'напоминать/напомнить', 'Remind me to call him.'],
+      ['to avoid', 'избегать/избежать', 'Try to avoid the city centre at rush hour.'],
+      ['rush hour', 'час пик', 'Traffic is terrible during rush hour.'],
+      ['to commute', 'ездить на работу', 'I commute by train.'],
+      ['to recover', 'выздороветь/восстановиться', 'He recovered quickly after the flu.'],
+      ['prescription', 'рецепт (врача)', 'You need a prescription for this medicine.'],
+      ['to be allergic to', 'аллергия на', 'I am allergic to nuts.'],
+      ['to share', 'делиться/поделиться/делить', 'We share a flat.'],
+      ['to agree', 'соглашаться/согласиться', 'I agree with you.'],
+      ['to argue', 'спорить/ругаться', 'They argued about money.'],
+      ['to apologise', 'извиняться/извиниться', 'He apologised for being late.'],
+      ['to look forward to', 'с нетерпением ждать', 'I look forward to seeing you.'],
+      ['to get used to', 'привыкать/привыкнуть', 'I am getting used to the cold.'],
+      ['convenient', 'удобный', 'Is Monday convenient for you?'],
+      ['crowded', 'переполненный/людный', 'The beach was crowded.'],
+      ['reliable', 'надёжный', 'This car is very reliable.'],
+      ['to mention', 'упоминать/упомянуть', 'She mentioned your name.'],
+      ['to suggest', 'предлагать/предложить', 'I suggest taking a taxi.'],
+      ['to expect', 'ожидать/ждать', 'I did not expect so many people.'],
+      ['to waste time', 'тратить время зря', 'Don\'t waste time on this.'],
+      ['on purpose', 'нарочно/специально', 'He did it on purpose.'],
+      ['by mistake', 'по ошибке', 'I took your umbrella by mistake.']
+    ]
+  },
+  'phrasal': {
+    title: 'Фразовые глаголы — топ для жизни и работы',
+    level: 'B1',
+    cards: [
+      ['to set up', 'установить/настроить/организовать', 'Set up the tripod over the point.'],
+      ['to carry out', 'выполнять/проводить', 'We carried out the survey in two days.'],
+      ['to find out', 'выяснить/узнать', 'Find out who owns this land.'],
+      ['to figure out', 'разобраться/понять', 'I can\'t figure out this error.'],
+      ['to look for', 'искать', 'I am looking for the control point.'],
+      ['to look after', 'присматривать/заботиться', 'Can you look after my bag?'],
+      ['to pick up', 'забрать/подобрать', 'I will pick you up at eight.'],
+      ['to drop off', 'подвезти/высадить/завезти', 'Drop me off at the station.'],
+      ['to turn on', 'включить', 'Turn on the instrument.'],
+      ['to turn off', 'выключить', 'Turn off the lights.'],
+      ['to give up', 'бросить/сдаться', 'Don\'t give up.'],
+      ['to put off', 'откладывать/отложить', 'We put off the meeting until Friday.'],
+      ['to call back', 'перезвонить', 'I will call you back later.'],
+      ['to run out of', 'закончиться (запас)', 'We ran out of batteries.'],
+      ['to fill in', 'заполнить (форму)', 'Please fill in this form.'],
+      ['to check in', 'зарегистрироваться/заселиться', 'We checked in at the hotel.'],
+      ['to get on with', 'ладить с', 'I get on well with my colleagues.'],
+      ['to come across', 'наткнуться/случайно найти', 'I came across an old map.'],
+      ['to go through', 'просмотреть/пройти через', 'Let\'s go through the drawings.'],
+      ['to deal with', 'разобраться с/иметь дело с', 'I will deal with the client.'],
+      ['to break down', 'сломаться', 'The car broke down on the way.'],
+      ['to sort out', 'уладить/разобраться', 'We need to sort out the payment.'],
+      ['to point out', 'указать/обратить внимание', 'He pointed out a mistake in the plan.'],
+      ['to keep up with', 'не отставать от', 'It is hard to keep up with new software.'],
+      ['to back up', 'сделать резервную копию/поддержать', 'Back up the data every evening.']
+    ]
+  },
+  'survey': {
+    title: 'Геодезист — общие термины',
+    level: 'B1',
+    cards: [
+      ['surveyor', 'геодезист', 'The surveyor arrived early.'],
+      ['surveying', 'геодезия/геодезические работы', 'Surveying is my profession.'],
+      ['survey', 'съёмка/изыскание/обследование', 'We need a new survey of the site.'],
+      ['total station', 'тахеометр', 'The total station needs calibration.'],
+      ['level', 'нивелир', 'Set up the level between the two points.'],
+      ['GNSS receiver', 'gnss приёмник/приёмник/gps приёмник', 'The GNSS receiver has a fixed solution.'],
+      ['tripod', 'штатив', 'The tripod is not stable.'],
+      ['prism', 'призма/отражатель', 'Hold the prism vertical.'],
+      ['prism pole', 'веха', 'Check the bubble on the prism pole.'],
+      ['levelling staff', 'рейка/нивелирная рейка', 'Hold the levelling staff straight.'],
+      ['benchmark', 'репер', 'We started from the nearest benchmark.'],
+      ['control point', 'опорный пункт/опорная точка/пункт', 'There are three control points on site.'],
+      ['station', 'станция', 'I moved the station closer to the building.'],
+      ['backsight', 'ориентирование/задняя точка', 'Take a backsight to the control point.'],
+      ['traverse', 'ход/теодолитный ход', 'We ran a closed traverse around the site.'],
+      ['misclosure', 'невязка', 'The misclosure is within tolerance.'],
+      ['tolerance', 'допуск', 'The error is out of tolerance.'],
+      ['adjustment', 'уравнивание', 'Run the adjustment before exporting.'],
+      ['setting out', 'вынос в натуру/разбивка', 'Setting out starts tomorrow.'],
+      ['as-built survey', 'исполнительная съёмка', 'The client needs an as-built survey.'],
+      ['topographic survey', 'топосъёмка/топографическая съёмка', 'The topographic survey took a week.'],
+      ['boundary survey', 'межевание', 'A boundary survey is required before building.'],
+      ['elevation', 'отметка/высота', 'What is the elevation of this point?'],
+      ['height difference', 'превышение', 'The height difference is 1.25 metres.'],
+      ['bearing', 'дирекционный угол/румб', 'Calculate the bearing between the two points.'],
+      ['coordinate system', 'система координат', 'Which coordinate system do you use?'],
+      ['scale', 'масштаб', 'The plan is at a scale of 1:500.'],
+      ['contour lines', 'горизонтали', 'Contour lines are every half metre.'],
+      ['point cloud', 'облако точек', 'The scanner produced a dense point cloud.'],
+      ['accuracy', 'точность', 'What accuracy do you need?'],
+      ['measurement', 'измерение', 'Repeat the measurement twice.'],
+      ['peg', 'колышек', 'Put a peg at each corner.'],
+      ['site', 'объект/площадка/участок', 'I will be on site all day.'],
+      ['drawing', 'чертёж', 'Send me the latest drawing.'],
+      ['to calibrate', 'калибровать/поверять', 'The instrument was calibrated last month.']
+    ]
+  },
+  'work-talk': {
+    title: 'Работа — фразы для объекта и заказчика',
+    level: 'B1',
+    dir: 'ru2en',
+    cards: [
+      ['Where can I set up the instrument?', 'где я могу поставить прибор', ''],
+      ['Could you move the car, please? It is blocking my line of sight.', 'не могли бы вы переставить машину она перекрывает мне видимость', ''],
+      ['How long will it take?', 'сколько времени это займёт', ''],
+      ['I will send you the results by Friday.', 'я пришлю вам результаты к пятнице', ''],
+      ['Which format do you need: DWG or PDF?', 'какой формат вам нужен dwg или pdf', ''],
+      ['Which coordinate system should I use?', 'какую систему координат использовать', ''],
+      ['The deadline is too tight.', 'срок слишком сжатый', ''],
+      ['Let me double-check the measurements.', 'давайте я перепроверю измерения', ''],
+      ['There is a discrepancy between the drawing and the site.', 'есть расхождение между чертежом и натурой', ''],
+      ['Could you confirm the address of the site?', 'не могли бы вы подтвердить адрес объекта', ''],
+      ['I need access to the roof.', 'мне нужен доступ на крышу', ''],
+      ['Please don\'t touch the pegs.', 'пожалуйста не трогайте колышки', ''],
+      ['The quote includes fieldwork and drafting.', 'смета включает полевые и камеральные работы', ''],
+      ['I am running late, I will be there in twenty minutes.', 'я опаздываю буду через двадцать минут', ''],
+      ['Sorry, could you say that again more slowly?', 'извините не могли бы вы повторить помедленнее', ''],
+      ['What do you mean by that?', 'что вы имеете в виду', ''],
+      ['As I mentioned in my last email', 'как я упоминал в прошлом письме', ''],
+      ['Please find attached the survey report.', 'во вложении отчёт о съёмке', ''],
+      ['I look forward to hearing from you.', 'жду вашего ответа', ''],
+      ['Let\'s schedule a call.', 'давайте назначим созвон', '']
+    ]
+  },
+  'linkers': {
+    title: 'Связки B1–B2 — чтобы речь звучала связно',
+    level: 'B2',
+    cards: [
+      ['however', 'однако', 'The method is fast. However, it is less accurate.'],
+      ['although', 'хотя', 'Although it was raining, we finished the survey.'],
+      ['despite', 'несмотря на', 'Despite the rain, we finished on time.'],
+      ['therefore', 'поэтому/следовательно', 'The error was large; therefore, we repeated it.'],
+      ['whereas', 'тогда как/в то время как', 'GNSS is quick, whereas levelling is more precise.'],
+      ['as long as', 'при условии что/пока', 'You can use it as long as you return it.'],
+      ['unless', 'если не', 'We will start at eight unless it rains.'],
+      ['in addition', 'кроме того/вдобавок', 'In addition, we checked the control points.'],
+      ['on the other hand', 'с другой стороны', 'On the other hand, it is more expensive.'],
+      ['as a result', 'в результате', 'As a result, the project was delayed.'],
+      ['in order to', 'для того чтобы/чтобы', 'We used a level in order to get precise heights.'],
+      ['so that', 'чтобы/так чтобы', 'Speak slowly so that everyone understands.'],
+      ['instead of', 'вместо', 'Use a prism pole instead of a stick.'],
+      ['according to', 'согласно/по словам', 'According to the drawing, the wall is here.'],
+      ['as soon as', 'как только', 'Call me as soon as you arrive.'],
+      ['eventually', 'в конце концов/в итоге', 'Eventually, we found the benchmark.'],
+      ['actually', 'на самом деле/вообще-то', 'Actually, I meant the other point.'],
+      ['meanwhile', 'тем временем/между тем', 'Meanwhile, my colleague set up the level.'],
+      ['otherwise', 'иначе/в противном случае', 'Check the bubble, otherwise the data is wrong.'],
+      ['nevertheless', 'тем не менее', 'It was difficult. Nevertheless, we did it.']
+    ]
+  },
+  'irregular': {
+    title: 'Неправильные глаголы — 3 формы',
+    level: 'A2',
+    dir: 'ru2en',
+    cards: [
+      ['be was been/be were been', 'быть', ''], ['go went gone', 'идти/ехать', ''],
+      ['do did done', 'делать', ''], ['have had had', 'иметь', ''],
+      ['make made made', 'делать/изготавливать', ''], ['take took taken', 'брать', ''],
+      ['give gave given', 'давать', ''], ['get got got', 'получать', ''],
+      ['come came come', 'приходить', ''], ['see saw seen', 'видеть', ''],
+      ['know knew known', 'знать', ''], ['think thought thought', 'думать', ''],
+      ['find found found', 'находить', ''], ['tell told told', 'сказать (кому-то)/рассказывать', ''],
+      ['say said said', 'сказать', ''], ['buy bought bought', 'покупать', ''],
+      ['bring brought brought', 'приносить', ''], ['leave left left', 'оставлять/уезжать', ''],
+      ['send sent sent', 'отправлять', ''], ['spend spent spent', 'тратить/проводить (время)', ''],
+      ['build built built', 'строить', ''], ['set set set', 'устанавливать', ''],
+      ['put put put', 'класть', ''], ['write wrote written', 'писать', ''],
+      ['drive drove driven', 'водить (машину)', ''], ['break broke broken', 'ломать', ''],
+      ['choose chose chosen', 'выбирать', ''], ['forget forgot forgotten', 'забывать', ''],
+      ['lose lost lost', 'терять', ''], ['understand understood understood', 'понимать', '']
+    ]
+  }
+};
+
+</script>
+<script>
+(function () {
+  const KEY = 'vocab_trainer_v1';
+  const INTERVALS = [0, 0, 1, 3, 7, 14, 30]; // дни для коробок 1..6 (индекс = коробка)
+  const MAX_BOX = 6;
+  let memoryStore = null;
+  let storageOk = true;
+
+  // ---------- хранилище ----------
+  function emptyState() {
+    return { cards: {}, nextId: 1, errors: [], days: {}, streak: 0, lastDay: null,
+             settings: { newPerDay: 10, level: 'A2' }, loadedDecks: [] };
+  }
+  function load() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) { storageOk = false; }
+    return memoryStore || emptyState();
+  }
+  function save(st) {
+    memoryStore = st;
+    try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) { storageOk = false; }
+  }
+
+  // ---------- даты ----------
+  function today() { return new Date().toISOString().slice(0, 10); }
+  function addDays(d, n) { const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); }
+  function dayStat(st) { const d = today(); if (!st.days[d]) st.days[d] = { reviewed: 0, correct: 0, added: 0, newSeen: 0 }; return st.days[d]; }
+  function touchStreak(st) {
+    const d = today();
+    if (st.lastDay === d) return;
+    st.streak = (st.lastDay === addDays(d, -1)) ? st.streak + 1 : 1;
+    st.lastDay = d;
+  }
+
+  // ---------- сравнение ответов ----------
+  function norm(s) {
+    return String(s || '').toLowerCase().replace(/ё/g, 'е')
+      .replace(/[’`]/g, "'").replace(/[.,!?;:"()«»—–-]/g, ' ')
+      .replace(/^\s*(to|a|an|the)\s+/, '').replace(/\s+/g, ' ').trim();
+  }
+  function lev(a, b) {
+    const m = a.length, n = b.length; if (!m) return n; if (!n) return m;
+    let prev = Array.from({ length: n + 1 }, (_, j) => j);
+    for (let i = 1; i <= m; i++) {
+      const cur = [i];
+      for (let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = cur;
+    }
+    return prev[n];
+  }
+  function judge(answer, expected) {
+    const a = norm(answer);
+    const variants = String(expected).split('/').map(norm).filter(Boolean);
+    let best = Infinity, bestV = variants[0];
+    for (const v of variants) {
+      if (a === v) return { verdict: 'correct' };
+      const d = lev(a, v); if (d < best) { best = d; bestV = v; }
+    }
+    const tol = bestV.length <= 4 ? 0 : bestV.length <= 10 ? 1 : Math.floor(bestV.length / 10) + 1;
+    if (best <= tol) return { verdict: 'typo' };
+    if (bestV.length > 25 && best <= Math.ceil(bestV.length * 0.25)) return { verdict: 'close' };
+    return { verdict: 'wrong' };
+  }
+
+  // ---------- карточки ----------
+  function findDup(st, en) { const k = norm(en); return Object.values(st.cards).find(c => norm(c.en) === k); }
+  function addCard(st, en, ru, ex, deck, dir) {
+    if (!en || !ru) return null;
+    const dup = findDup(st, en); if (dup) return null;
+    const id = st.nextId++;
+    st.cards[id] = { id, en, ru, ex: ex || '', deck: deck || 'my', dir: dir || 'mix', box: 0, due: today(), right: 0, wrong: 0, added: today() };
+    return st.cards[id];
+  }
+  function promote(c, ok) {
+    if (ok) { c.box = Math.min(MAX_BOX, Math.max(1, c.box) + 1); c.right++; }
+    else { c.box = 1; c.wrong++; }
+    c.due = addDays(today(), INTERVALS[c.box] || 30);
+    c.last = today();
+  }
+  function questionFor(c, wanted) {
+    let dir = c.dir !== 'mix' ? c.dir : (wanted && wanted !== 'mix' ? wanted : (Math.random() < 0.5 ? 'en2ru' : 'ru2en'));
+    const q = dir === 'en2ru' ? c.en : c.ru.split('/')[0];
+    return { id: c.id, dir, ask: dir === 'en2ru' ? 'Переведи на русский' : 'Переведи на английский', question: q, isNew: c.box === 0 };
+  }
+
+  // ---------- действия ----------
+  const A = {};
+
+  A.help = () => ({ result:
+`Действия vocab-trainer (поле action):
+decks — список колод; load {deck} — загрузить колоду; add {en, ru, example} — добавить слово;
+next {count, dir} — карточки к повторению; check {id, answer, dir} — проверить ответ;
+mark {id, correct} — засчитать или не засчитать вручную; list {deck} — список слов; delete {id};
+stats — прогресс; error {wrong, right, type} — записать ошибку; errors — журнал ошибок;
+cards {deck} — показать карточки-флипы; level {level} — установить уровень; settings {newPerDay};
+export — резервная копия; import {json}; reset {confirm:"yes"}.` });
+
+  A.decks = (d, st) => {
+    const lines = Object.entries(window.VT_DECKS).map(([k, v]) =>
+      `• ${k} — ${v.title} (${v.level}, ${v.cards.length} шт.)${st.loadedDecks.includes(k) ? ' ✅ загружена' : ''}`);
+    return { result: 'Колоды:\n' + lines.join('\n') + '\nЗагрузить: action "load", deck "<имя>".' };
+  };
+
+  A.load = (d, st) => {
+    const name = d.deck; const deck = window.VT_DECKS[name];
+    if (!deck) return { error: 'Нет такой колоды: ' + name + '. Доступны: ' + Object.keys(window.VT_DECKS).join(', ') };
+    let n = 0;
+    for (const [en, ru, ex] of deck.cards) if (addCard(st, en, ru, ex, name, deck.dir)) n++;
+    if (!st.loadedDecks.includes(name)) st.loadedDecks.push(name);
+    save(st);
+    return { result: `Колода «${deck.title}» загружена: добавлено ${n} новых карточек. Новые слова выдаются по ${st.settings.newPerDay} в день. Начать: action "next".` };
+  };
+
+  A.add = (d, st) => {
+    const items = Array.isArray(d.words) ? d.words : [d];
+    const added = [], skipped = [];
+    for (const w of items) {
+      const c = addCard(st, (w.en || '').trim(), (w.ru || '').trim(), w.example || w.ex || '', w.deck || 'my');
+      c ? added.push(c.en) : skipped.push(w.en || '?');
+    }
+    dayStat(st).added += added.length; save(st);
+    return { result: `Добавлено: ${added.join(', ') || '—'}${skipped.length ? `\nПропущено (дубли или пусто): ${skipped.join(', ')}` : ''}` };
+  };
+
+  A.next = (d, st) => {
+    const count = Math.min(Math.max(parseInt(d.count) || 5, 1), 20);
+    const t = today(); const ds = dayStat(st);
+    const all = Object.values(st.cards);
+    const due = all.filter(c => c.box > 0 && c.due <= t).sort((a, b) => a.due.localeCompare(b.due) || a.box - b.box);
+    let picked = due.slice(0, count);
+    const newLeft = Math.max(0, st.settings.newPerDay - ds.newSeen);
+    if (picked.length < count && newLeft > 0) {
+      const fresh = all.filter(c => c.box === 0).slice(0, Math.min(newLeft, count - picked.length));
+      picked = picked.concat(fresh);
+    }
+    if (!picked.length) {
+      if (!all.length) return { result: 'Карточек пока нет. Загрузи колоду (action "decks") или добавь слова (action "add").' };
+      const nextDue = all.filter(c => c.box > 0).map(c => c.due).sort()[0];
+      return { result: `🎉 На сегодня всё повторено. Новых слов на сегодня: лимит исчерпан или они закончились. Следующее повторение: ${nextDue || '—'}.` };
+    }
+    const qs = picked.map(c => questionFor(c, d.dir));
+    const lines = qs.map((q, i) => `${i + 1}) id=${q.id} [${q.dir}]${q.isNew ? ' 🆕' : ''} ${q.ask}: «${q.question}»`);
+    save(st);
+    return { result: `К повторению сегодня: ${due.length}. Даю ${qs.length}:\n${lines.join('\n')}\n\nЗадавай по одному. Ответ проверяй через action "check" с id, answer и dir.` };
+  };
+
+  A.check = (d, st) => {
+    const c = st.cards[d.id]; if (!c) return { error: 'Нет карточки id=' + d.id };
+    const dir = c.dir !== 'mix' ? c.dir : (d.dir || 'en2ru');
+    const expected = dir === 'en2ru' ? c.ru : c.en;
+    const j = judge(d.answer, expected);
+    const ds = dayStat(st);
+    if (c.box === 0) ds.newSeen++;
+    if (j.verdict === 'close') {
+      save(st);
+      return { result: `🤔 Почти. Эталон: «${expected.split('/')[0]}». Ответ ученика: «${d.answer}». Реши сам: если смысл и грамматика верны, вызови mark {id:${c.id}, correct:true}, иначе mark {id:${c.id}, correct:false}, и объясни разницу.` };
+    }
+    const ok = j.verdict !== 'wrong';
+    promote(c, ok); ds.reviewed++; if (ok) ds.correct++; touchStreak(st); save(st);
+    const ex = c.ex ? `\nПример: ${c.ex}` : '';
+    if (j.verdict === 'correct') return { result: `✅ Верно! «${c.en.split("/")[0]}» — ${c.ru.split('/')[0]}. Следующий показ: ${c.due}.${ex}` };
+    if (j.verdict === 'typo') return { result: `✅ Засчитано (опечатка). Правильно: «${expected.split('/')[0]}». Следующий показ: ${c.due}.${ex}` };
+    return { result: `❌ Неверно. Правильно: «${expected.split('/')[0]}»${expected.includes('/') ? ` (варианты: ${expected})` : ''}. Ответ ученика: «${d.answer}». Карточка вернётся сегодня. Если ответ ученика — правильный синоним, вызови mark {id:${c.id}, correct:true}.${ex}` };
+  };
+
+  A.mark = (d, st) => {
+    const c = st.cards[d.id]; if (!c) return { error: 'Нет карточки id=' + d.id };
+    const ok = d.correct === true || d.correct === 'true';
+    // если check уже понизил карточку, а синоним признан верным — восстанавливаем
+    const ds = dayStat(st);
+    if (ok && c.last === today() && c.box === 1 && c.wrong > 0) { c.wrong--; ds.reviewed = Math.max(0, ds.reviewed - 1); }
+    promote(c, ok); ds.reviewed++; if (ok) ds.correct++; touchStreak(st); save(st);
+    return { result: ok ? `✅ Засчитано. Следующий показ: ${c.due}.` : `❌ Не засчитано. Карточка вернётся сегодня.` };
+  };
+
+  A.list = (d, st) => {
+    const cs = Object.values(st.cards).filter(c => !d.deck || c.deck === d.deck);
+    if (!cs.length) return { result: 'Пусто.' };
+    const lines = cs.slice(0, 60).map(c => `id=${c.id} ${c.en} — ${c.ru.split('/')[0]} [коробка ${c.box}/${MAX_BOX}]`);
+    return { result: lines.join('\n') + (cs.length > 60 ? `\n…и ещё ${cs.length - 60}` : '') };
+  };
+
+  A.delete = (d, st) => {
+    const c = st.cards[d.id]; if (!c) return { error: 'Нет карточки id=' + d.id };
+    delete st.cards[d.id]; save(st); return { result: `Удалено: ${c.en}` };
+  };
+
+  A.stats = (d, st) => {
+    const cs = Object.values(st.cards); const t = today();
+    const learned = cs.filter(c => c.box >= 4).length, mastered = cs.filter(c => c.box >= MAX_BOX).length;
+    const learning = cs.filter(c => c.box > 0 && c.box < 4).length, fresh = cs.filter(c => c.box === 0).length;
+    const due = cs.filter(c => c.box > 0 && c.due <= t).length;
+    const ds = st.days[t] || { reviewed: 0, correct: 0 };
+    let r7 = 0, c7 = 0, active7 = 0;
+    for (let i = 0; i < 7; i++) { const x = st.days[addDays(t, -i)]; if (x) { r7 += x.reviewed; c7 += x.correct; if (x.reviewed) active7++; } }
+    const hardest = cs.filter(c => c.wrong > 0).sort((a, b) => b.wrong - a.wrong).slice(0, 5).map(c => `${c.en} (${c.wrong}✗)`);
+    const errTypes = {}; st.errors.forEach(e => errTypes[e.type || 'другое'] = (errTypes[e.type || 'другое'] || 0) + 1);
+    const topErr = Object.entries(errTypes).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([k, v]) => `${k}: ${v}`);
+    return { result:
+`📊 Прогресс (уровень по плану: ${st.settings.level})
+🔥 Серия: ${st.streak} дн. | активных дней за неделю: ${active7}/7
+📚 Всего карточек: ${cs.length} — 🆕 новых ${fresh}, 🔄 учатся ${learning}, ✅ выучено ${learned}, 🏆 закреплено надолго ${mastered}
+⏰ Пора повторить сейчас: ${due}
+📅 Сегодня: ${ds.reviewed} ответов, верно ${ds.correct}${ds.reviewed ? ` (${Math.round(ds.correct / ds.reviewed * 100)}%)` : ''}
+📈 За 7 дней: ${r7} ответов, точность ${r7 ? Math.round(c7 / r7 * 100) : 0}%
+😬 Трудные слова: ${hardest.join(', ') || '—'}
+✍️ Частые ошибки: ${topErr.join(', ') || '—'} (всего в журнале: ${st.errors.length})
+💾 Хранилище: ${storageOk ? 'сохраняется на устройстве' : 'только в памяти до закрытия — сделай export'}` };
+  };
+
+  A.error = (d, st) => {
+    const items = Array.isArray(d.items) ? d.items : [d];
+    let n = 0;
+    for (const e of items) {
+      if (!e.wrong || !e.right) continue;
+      st.errors.push({ wrong: e.wrong, right: e.right, type: e.type || 'другое', note: e.note || '', date: today() }); n++;
+    }
+    if (st.errors.length > 300) st.errors = st.errors.slice(-300);
+    save(st);
+    return { result: `Записано ошибок: ${n}. В журнале: ${st.errors.length}.` };
+  };
+
+  A.errors = (d, st) => {
+    if (!st.errors.length) return { result: 'Журнал ошибок пуст.' };
+    const groups = {};
+    st.errors.slice(-60).forEach(e => (groups[e.type] = groups[e.type] || []).push(e));
+    const out = Object.entries(groups).sort((a, b) => b[1].length - a[1].length).map(([t, es]) =>
+      `【${t}】 ${es.length} шт.\n` + es.slice(-5).map(e => `  ❌ ${e.wrong} → ✅ ${e.right}`).join('\n'));
+    return { result: 'Журнал ошибок (последние, по типам):\n' + out.join('\n') + '\n\nПредложи работу над самым частым типом (english-tutor, методика 11).' };
+  };
+
+  A.cards = (d, st) => {
+    let cs = Object.values(st.cards);
+    if (d.deck) cs = cs.filter(c => c.deck === d.deck);
+    else { const t = today(); const due = cs.filter(c => c.box > 0 && c.due <= t); cs = due.length ? due : cs.filter(c => c.box === 0); }
+    if (!cs.length && d.deck && window.VT_DECKS[d.deck]) cs = window.VT_DECKS[d.deck].cards.map(([en, ru, ex]) => ({ en, ru, ex }));
+    cs = cs.slice(0, 25).map(c => ({ e: c.en, r: c.ru.split('/')[0], x: c.ex || '' }));
+    if (!cs.length) return { result: 'Нет карточек для показа.' };
+    return { result: `Открываю ${cs.length} карточек: нажми на карточку, чтобы перевернуть.`,
+             webview: { url: 'cards.html?d=' + encodeURIComponent(JSON.stringify(cs)), aspectRatio: 0.8 } };
+  };
+
+  A.level = (d, st) => { if (d.level) st.settings.level = String(d.level).toUpperCase(); save(st); return { result: 'Уровень: ' + st.settings.level }; };
+  A.settings = (d, st) => { if (d.newPerDay) st.settings.newPerDay = Math.min(50, Math.max(1, parseInt(d.newPerDay))); save(st); return { result: `Новых слов в день: ${st.settings.newPerDay}` }; };
+  A.export = (d, st) => ({ result: 'Скопируй и сохрани эту строку (это резервная копия):\n' + JSON.stringify(st) });
+  A.import = (d, st) => {
+    try { const s = typeof d.json === 'string' ? JSON.parse(d.json) : d.json; if (!s || !s.cards) throw new Error('нет поля cards');
+      save(s); return { result: `Импортировано карточек: ${Object.keys(s.cards).length}` }; }
+    catch (e) { return { error: 'Не удалось импортировать: ' + e.message }; }
+  };
+  A.reset = (d, st) => {
+    if (d.confirm !== 'yes') return { result: 'Это удалит ВСЁ. Чтобы подтвердить: reset {confirm:"yes"}. Сначала лучше сделать export.' };
+    save(emptyState()); return { result: 'Всё сброшено.' };
+  };
+
+  window['ai_edge_gallery_get_result'] = async (data) => {
+    try {
+      const d = typeof data === 'string' ? (data.trim() ? JSON.parse(data) : {}) : (data || {});
+      const action = String(d.action || 'help').toLowerCase();
+      const fn = A[action];
+      if (!fn) return JSON.stringify({ error: `Неизвестное действие "${action}". Используй action "help".` });
+      const st = load();
+      return JSON.stringify(fn(d, st));
+    } catch (e) {
+      return JSON.stringify({ error: 'Ошибка: ' + e.message });
+    }
+  };
+})();
+</script>
+</body>
+</html>

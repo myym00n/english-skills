@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: system-ui, sans-serif; background: #15171c; color: #eef; height: 100vh;
+         display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; gap: 14px; }
+  .top { display: flex; justify-content: space-between; width: 100%; max-width: 420px; font-size: 14px; color: #9aa; }
+  .card { width: 100%; max-width: 420px; aspect-ratio: 4/3; perspective: 1000px; cursor: pointer; }
+  .inner { position: relative; width: 100%; height: 100%; transition: transform .45s; transform-style: preserve-3d; }
+  .card.flip .inner { transform: rotateY(180deg); }
+  .face { position: absolute; inset: 0; border-radius: 20px; backface-visibility: hidden; display: flex;
+          flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+  .front { background: linear-gradient(135deg, #3b6fe0, #2a4fb0); }
+  .back { background: linear-gradient(135deg, #1f9d55, #157a40); transform: rotateY(180deg); }
+  .word { font-size: 28px; font-weight: 700; line-height: 1.25; }
+  .tr { font-size: 24px; font-weight: 600; }
+  .ex { margin-top: 14px; font-size: 15px; opacity: .9; font-style: italic; }
+  .hint { margin-top: 10px; font-size: 12px; opacity: .7; }
+  .row { display: flex; gap: 10px; width: 100%; max-width: 420px; }
+  button { flex: 1; padding: 14px; border: 0; border-radius: 14px; font-size: 16px; font-weight: 600; color: #fff; }
+  .prev { background: #333a48; } .next { background: #3b6fe0; } .swap { background: #6b4bd1; }
+  .bar { width: 100%; max-width: 420px; height: 6px; background: #2a2f3a; border-radius: 3px; overflow: hidden; }
+  .bar div { height: 100%; background: #3b6fe0; transition: width .3s; }
+</style>
+</head>
+<body>
+  <div class="top"><span id="pos"></span><span id="mode"></span></div>
+  <div class="bar"><div id="prog"></div></div>
+  <div class="card" id="card"><div class="inner">
+    <div class="face front"><div class="word" id="f"></div><div class="hint">нажми, чтобы перевернуть</div></div>
+    <div class="face back"><div class="tr" id="b"></div><div class="ex" id="x"></div></div>
+  </div></div>
+  <div class="row">
+    <button class="prev" id="prev">◀</button>
+    <button class="swap" id="swap">EN⇄RU</button>
+    <button class="next" id="next">▶</button>
+  </div>
+<script>
+  let cards = [];
+  try { cards = JSON.parse(new URLSearchParams(location.search).get('d') || '[]'); } catch (e) {}
+  if (!cards.length) cards = [{ e: 'No cards', r: 'Нет карточек', x: '' }];
+  // перемешиваем
+  for (let i = cards.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [cards[i], cards[j]] = [cards[j], cards[i]]; }
+  let i = 0, enFirst = true;
+  const $ = id => document.getElementById(id);
+  function show() {
+    const c = cards[i];
+    $('card').classList.remove('flip');
+    setTimeout(() => {
+      $('f').textContent = enFirst ? c.e : c.r;
+      $('b').textContent = enFirst ? c.r : c.e;
+      $('x').textContent = c.x || '';
+    }, 150);
+    $('pos').textContent = (i + 1) + ' / ' + cards.length;
+    $('mode').textContent = enFirst ? 'EN → RU' : 'RU → EN';
+    $('prog').style.width = ((i + 1) / cards.length * 100) + '%';
+  }
+  $('card').onclick = () => $('card').classList.toggle('flip');
+  $('next').onclick = () => { i = (i + 1) % cards.length; show(); };
+  $('prev').onclick = () => { i = (i - 1 + cards.length) % cards.length; show(); };
+  $('swap').onclick = () => { enFirst = !enFirst; show(); };
+  show();
+</script>
+</body>
+</html>
