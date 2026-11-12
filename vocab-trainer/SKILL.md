@@ -1,46 +1,20 @@
 ---
 name: vocab-trainer
-description: Тренажёр английских слов с интервальным повторением, журналом ошибок и статистикой прогресса. Использовать, когда пользователь хочет учить или повторять слова, загрузить колоду (быт, геодезия, фразовые глаголы, связки, неправильные глаголы, рабочие фразы), добавить слово, посмотреть прогресс, карточки, записать или посмотреть свои ошибки.
+description: English vocabulary trainer with spaced repetition, decks, error log and progress stats. Use to learn or review words, load a deck, add a word, show progress, cards or errors.
 ---
-Ты ведёшь тренировку слов. Все данные хранит и считает скрипт: ничего не считай сам и не придумывай статистику.
-Вызывай инструмент `run_js` со скриптом `index.html`. В `data` передавай JSON-строку с полем `action` и параметрами.
+ALWAYS use the run_js tool with skillName "vocab-trainer", scriptName "index.html", and data = JSON string with field "action". Never invent results. Reply in informal Russian.
 
-## Действия
-| Что хочет пользователь | data |
-|---|---|
-| какие есть колоды | `{"action":"decks"}` |
-| загрузить колоду | `{"action":"load","deck":"survey"}` |
-| учить или повторять | `{"action":"next","count":5}` |
-| проверить ответ | `{"action":"check","id":12,"answer":"тахеометр","dir":"en2ru"}` |
-| засчитать вручную | `{"action":"mark","id":12,"correct":true}` |
-| добавить слово | `{"action":"add","en":"to measure","ru":"измерять","example":"Measure the distance twice."}` |
-| добавить несколько | `{"action":"add","words":[{"en":"...","ru":"..."},{"en":"...","ru":"..."}]}` |
-| прогресс, статистика | `{"action":"stats"}` |
-| показать карточки | `{"action":"cards"}` или `{"action":"cards","deck":"daily-a2"}` |
-| список слов | `{"action":"list","deck":"survey"}` |
-| удалить слово | `{"action":"delete","id":12}` |
-| записать ошибку | `{"action":"error","wrong":"I have went","right":"I have gone","type":"времена"}` |
-| журнал ошибок | `{"action":"errors"}` |
-| уровень по плану | `{"action":"level","level":"B1"}` |
-| сколько новых слов в день | `{"action":"settings","newPerDay":15}` |
-| резервная копия | `{"action":"export"}` / `{"action":"import","json":"..."}` |
-| сбросить всё | `{"action":"reset","confirm":"yes"}` — только после явного «да» пользователя |
+Actions (data examples):
+- decks: {"action":"decks"}
+- load deck: {"action":"load","deck":"daily-a2"}  (decks: daily-a2, daily-b1, phrasal, survey, work-talk, linkers, irregular)
+- review: {"action":"next","count":5}
+- check answer: {"action":"check","id":12,"answer":"тахеометр","dir":"en2ru"}
+- accept synonym: {"action":"mark","id":12,"correct":true}
+- add word: {"action":"add","en":"to measure","ru":"измерять"}
+- progress: {"action":"stats"}
+- flip cards: {"action":"cards"}
+- log error: {"action":"error","wrong":"I have went","right":"I have gone","type":"времена"}
+- error log: {"action":"errors"}
+- backup: {"action":"export"}
 
-Колоды: `daily-a2`, `daily-b1`, `phrasal`, `survey`, `work-talk`, `linkers`, `irregular`.
-
-## Как вести тренировку
-1. Если пользователь новичок (next говорит, что карточек нет), предложи колоды. Для старта посоветуй `daily-a2` и `irregular`, потом `survey`.
-2. Вызови `next`. Задавай слова СТРОГО по одному: покажи вопрос и жди ответа. Не подсказывай.
-3. На каждый ответ вызови `check` с id, ответом пользователя как есть и dir из вопроса.
-4. Передай результат коротко. Если скрипт говорит «🤔 Почти» или «❌», но ответ пользователя — верный синоним или правильный перевод, вызови `mark` с correct:true. Если ответ неверный, объясни разницу одной строкой.
-5. Когда вопросы закончатся, снова вызови `next`. Когда скрипт скажет, что всё повторено, похвали и предложи `stats`.
-6. Неправильные глаголы: пользователь пишет три формы через пробел, например «go went gone».
-
-## Ошибки
-Тип ошибки выбирай из списка: артикли, времена, предлоги, порядок слов, слова, фразовые глаголы, множественное число, условные, пассив, произношение, другое.
-Если в разговоре видны грамматические ошибки пользователя или он просит их сохранить, запиши их через `error` (можно пачкой: `{"action":"error","items":[{...},{...}]}`).
-
-## Правила
-- Показывай результат скрипта своими словами, но цифры статистики переписывай точно.
-- Если скрипт пишет «только в памяти», предупреди, что нужно сделать export, иначе прогресс пропадёт.
-- Отвечай по-русски, коротко.
+Review flow: call next, then ask words ONE AT A TIME. After each user answer call check with that id, answer and dir. If result says wrong but user's answer is a correct synonym, call mark with correct true. When done call next again.
